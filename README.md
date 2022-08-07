@@ -10,6 +10,10 @@ This project provides a solution including IaC code and configurations to run So
 
 <img src="screenshots/sonar-main.png" width="600"/>
 
+## Architecture
+
+![Architecture](./screenshots/sonar-arch.png?raw=true)
+
 ## Objectives
 
 1. Build a continuous inspection of code quality on Fargate with SonarQube and CDK in 10 minutes
