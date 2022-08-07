@@ -58,12 +58,12 @@ Use the `cdk` command-line toolkit to interact with your project:
 
 |   | Stack                          | Time To Complete |
 |---|--------------------------------|------|
-| 1 | VPC                            | 3m   |
+| 1 | VPC                            | 3m 30s (optional)     |
 | 2 | ECS Fargate cluster            | 50s  |
 | 3 | IAM roles                      | 1m   |
 | 4 | ECR and CodeCommit repository  | 1m   |
 | 5 | ECS Fargate Service and ALB    | 4m   |
-|   | Total                          | 10m  |
+|   | Total                          | 7m (10m 30s with a new VPC) |
 
 ## Steps
 
@@ -71,11 +71,7 @@ Use the [deploy-all.sh](./deploy-all.sh) file if you want to deploy all stacks w
 
 ### Step 1: VPC
 
-The VPC ID will be saved into the SSM Parameter Store to refer to other stacks.
-
-Parameter Name : `/sonarqube-fargate-cdk/vpc-id`
-
-Use the `-c vpcId` context parameter to use the existing VPC.
+Deploy a new VPC:
 
 ```bash
 cd vpc
@@ -83,6 +79,14 @@ cdk deploy
 ```
 
 [vpc/lib/vpc-stack.ts](./vpc/lib/vpc-stack.ts)
+
+The VPC ID will be saved into the SSM Parameter Store(`/sonarqube-fargate-cdk/vpc-id`) to refer from other stacks.
+
+To use the existing VPC, use the `-c vpcId` context parameter or create SSM Parameter:
+
+```bash
+aws ssm put-parameter --name "/sonarqube-fargate-cdk/vpc-id" --value "{existing-vpc-id}" --type String 
+```
 
 ### Step 2: ECS cluster
 
@@ -120,7 +124,8 @@ cdk deploy
 
 ```bash
 cd ../ecr-codecommit
-cdk deploy 
+cdk deploy --outputs-file ./cdk-outputs.json
+cat ./cdk-outputs.json | jq .
 ```
 
 ### Step 5: ECS Service
