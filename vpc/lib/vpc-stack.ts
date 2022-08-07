@@ -33,18 +33,7 @@ export class VpcStack extends Stack {
             ]
         });
 
-        var parameter = null;
-        const shouldCreateSsmParameter = ssm.StringParameter.fromStringParameterAttributes(this, 'should-create-ssm-parameter',
-            { parameterName: `${SSM_PREFIX}/vpc-id` }
-        ).stringValue;
-        if (shouldCreateSsmParameter === 'true') {
-            console.log(`Create the new SSM parameter: ${SSM_PREFIX}/vpc-id`);
-            parameter = new ssm.StringParameter(this, 'ssm-vcp-id', { parameterName: `${SSM_PREFIX}/vpc-id`, stringValue: vpc.vpcId });
-        } else {
-            console.log(`Load from the existing SSM parameter: ${SSM_PREFIX}/vpc-id`);
-            parameter = ssm.StringParameter.fromStringParameterAttributes(this, 'ssm-vcp-id', { parameterName: `${SSM_PREFIX}/vpc-id` });
-            console.log(`=== You MUST compare and update the existing SSM parameter for next stack if not match with ${SSM_PREFIX}/vpc-id and ${vpc.vpcId} ===`);
-        }
+        const parameter = new ssm.StringParameter(this, 'ssm-vcp-id', { parameterName: `${SSM_PREFIX}/vpc-id`, stringValue: vpc.vpcId });
         new CfnOutput(this, 'VPC', { value: vpc.vpcId });
         new CfnOutput(this, 'SSMParameter', { value: parameter.parameterName });
         new CfnOutput(this, 'SSMParameterValue', { value: vpc.vpcId });
