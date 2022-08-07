@@ -1,5 +1,6 @@
 # Sonarqube on Fargate with CDK
 
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=engel80_sonarqube-fargate-cdk&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=engel80_sonarqube-fargate-cdk) [![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=engel80_sonarqube-fargate-cdk&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=engel80_sonarqube-fargate-cdk)
 ## Introduction
 
 During App Modernization journey, a code visualization system is required for code quality management because many changes are needed.
